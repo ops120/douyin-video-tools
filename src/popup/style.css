@@ -1,0 +1,244 @@
+/* 抖存 popup 样式，dyx- 前缀，宽度 360px */
+
+.dyx-popup {
+  width: 360px;
+  min-height: 320px;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 14px;
+  color: #1f2328;
+  background: #fff;
+}
+
+.dyx-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid #d0d7de;
+  background: #f6f8fa;
+}
+
+.dyx-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.dyx-version {
+  font-size: 11px;
+  font-weight: 400;
+  color: #656d76;
+  margin-left: 6px;
+}
+
+.dyx-tabs {
+  display: flex;
+  border-bottom: 1px solid #d0d7de;
+}
+
+.dyx-tab {
+  flex: 1;
+  padding: 8px 0;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  font-size: 13px;
+  color: #656d76;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.dyx-tab:hover {
+  color: #1f2328;
+}
+
+.dyx-tab--active {
+  color: #cf222e;
+  border-bottom-color: #cf222e;
+  font-weight: 500;
+}
+
+.dyx-main {
+  padding: 16px;
+}
+
+/* 防御规则：非 hidden 且非 active 的面板也不显示，避免双面板堆叠 */
+.dyx-panel { display: none; }
+.dyx-panel[hidden] { display: none; }
+.dyx-panel.dyx-panel--active { display: block; }
+
+.dyx-placeholder {
+  text-align: center;
+  color: #656d76;
+  padding: 32px 16px;
+  font-size: 13px;
+}
+
+.dyx-field {
+  margin-bottom: 14px;
+}
+
+.dyx-label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #1f2328;
+}
+
+.dyx-select,
+.dyx-input {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  font-size: 13px;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.dyx-select:focus,
+.dyx-input:focus {
+  outline: none;
+  border-color: #0969da;
+  box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.12);
+}
+
+.dyx-preview {
+  padding: 8px 10px;
+  background: #f6f8fa;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #656d76;
+  word-break: break-all;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.dyx-btn {
+  padding: 6px 16px;
+  border: 1px solid rgba(31, 35, 40, 0.15);
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  background: #f6f8fa;
+  color: #1f2328;
+  transition: background 0.15s;
+}
+
+.dyx-btn:hover { background: #eaeef2; }
+
+.dyx-btn--primary {
+  background: #cf222e;
+  color: #fff;
+  border-color: #cf222e;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.dyx-btn--primary:hover { background: #a40e26; }
+
+.dyx-btn--danger-sm {
+  padding: 4px 12px;
+  border: 1px solid rgba(207, 34, 46, 0.2);
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  background: #fff;
+  color: #cf222e;
+  transition: background 0.15s;
+}
+
+.dyx-btn--danger-sm:hover { background: #ffebe9; }
+
+.dyx-btn--danger-sm:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* 列表 tab */
+.dyx-list-summary {
+  text-align: center;
+}
+
+.dyx-list-count {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1f2328;
+  margin: 0 0 12px;
+}
+
+.dyx-list-thumbs {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: 14px;
+  min-height: 56px;
+}
+
+.dyx-thumb {
+  width: 56px;
+  height: 56px;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 1px solid #d0d7de;
+}
+
+.dyx-list-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+/* M3：导出 tab */
+.dyx-export-count {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1f2328;
+  margin: 0 0 12px;
+}
+
+.dyx-export-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 12px;
+  margin-bottom: 14px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.dyx-export-field-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 2px 0;
+}
+
+.dyx-export-field-cb {
+  accent-color: #cf222e;
+}
+
+.dyx-export-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.dyx-btn--sm {
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+.dyx-btn--primary-sm {
+  padding: 4px 12px;
+  border: 1px solid #cf222e;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  background: #cf222e;
+  color: #fff;
+  transition: background 0.15s;
+}
+
+.dyx-btn--primary-sm:hover { background: #a40e26; }

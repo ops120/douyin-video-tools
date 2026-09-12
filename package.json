@@ -1,0 +1,22 @@
+{
+  "name": "dyx-doucun",
+  "version": "0.1.0",
+  "description": "抖存（DouCun）— 抖音视频下载助手 M3",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "dev": "node build.mjs --watch",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.268",
+    "esbuild": "^0.21.5",
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.0"
+  },
+  "dependencies": {
+    "jszip": "^3.10.2"
+  }
+}

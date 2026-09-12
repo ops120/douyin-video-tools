@@ -1,0 +1,436 @@
+/* 抖存批量页样式，dyx- 前缀 */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body.dyx-batch {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 14px;
+  color: #1f2328;
+  background: #f6f8fa;
+  min-height: 100vh;
+}
+
+/* 头部 */
+.dyx-batch-header {
+  padding: 12px 24px;
+  background: #fff;
+  border-bottom: 1px solid #d0d7de;
+}
+
+.dyx-batch-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #cf222e;
+}
+
+.dyx-batch-ver {
+  font-size: 11px;
+  font-weight: 400;
+  color: #656d76;
+  margin-left: 6px;
+}
+
+/* 工具栏（吸顶） */
+.dyx-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #fff;
+  border-bottom: 1px solid #d0d7de;
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.dyx-toolbar-info {
+  font-size: 13px;
+  color: #656d76;
+  white-space: nowrap;
+}
+
+.dyx-toolbar-sep {
+  margin: 0 4px;
+}
+
+.dyx-toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.dyx-toolbar-download {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+}
+
+/* 工具栏按钮 */
+.dyx-tbtn {
+  padding: 4px 12px;
+  border: 1px solid rgba(31, 35, 40, 0.15);
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  background: #f6f8fa;
+  color: #1f2328;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.dyx-tbtn:hover {
+  background: #eaeef2;
+}
+
+.dyx-tbtn--danger {
+  color: #cf222e;
+  border-color: rgba(207, 34, 46, 0.2);
+}
+
+.dyx-tbtn--danger:hover {
+  background: #ffebe9;
+}
+
+.dyx-sort-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.dyx-sort-label {
+  font-size: 12px;
+  color: #656d76;
+}
+
+.dyx-sort-select {
+  padding: 3px 6px;
+  border: 1px solid #d0d7de;
+  border-radius: 4px;
+  font-size: 12px;
+  background: #fff;
+}
+
+/* 下载按钮 */
+.dyx-dlbtn {
+  padding: 6px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.dyx-dlbtn--zip {
+  background: #cf222e;
+  color: #fff;
+}
+
+.dyx-dlbtn--zip:hover {
+  background: #a40e26;
+}
+
+.dyx-dlbtn--folder {
+  background: #0969da;
+  color: #fff;
+}
+
+.dyx-dlbtn--folder:hover {
+  background: #0550ae;
+}
+
+.dyx-dlbtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 进度栏 */
+.dyx-progress-bar {
+  background: #fff;
+  border-bottom: 1px solid #d0d7de;
+  padding: 10px 24px;
+}
+
+.dyx-progress-text {
+  font-size: 13px;
+  margin-bottom: 6px;
+  color: #1f2328;
+}
+
+.dyx-progress-track {
+  height: 6px;
+  background: #eaeef2;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+
+.dyx-progress-fill {
+  height: 100%;
+  background: #cf222e;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.dyx-progress-detail {
+  font-size: 12px;
+  color: #656d76;
+}
+
+/* 空态 */
+.dyx-empty {
+  text-align: center;
+  padding: 80px 24px;
+  color: #656d76;
+}
+
+.dyx-empty[hidden] {
+  display: none;
+}
+
+.dyx-empty-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.dyx-empty-text {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0 0 8px;
+  color: #1f2328;
+}
+
+.dyx-empty-hint {
+  font-size: 13px;
+  margin: 0;
+}
+
+/* 卡片网格 */
+.dyx-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+  padding: 16px 24px;
+}
+
+.dyx-grid[hidden] {
+  display: none;
+}
+
+/* 单张卡片 */
+.dyx-card {
+  background: #fff;
+  border: 1px solid #d0d7de;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: box-shadow 0.15s;
+  position: relative;
+}
+
+.dyx-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.dyx-card--selected {
+  border-color: #cf222e;
+  box-shadow: 0 0 0 1px #cf222e;
+}
+
+.dyx-card--stale {
+  border-color: #d4a72c;
+  border-width: 2px;
+}
+
+/* 卡片复选框 */
+.dyx-card-checkbox {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 2;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #cf222e;
+}
+
+/* 封面 */
+.dyx-card-cover {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #eaeef2;
+  overflow: hidden;
+}
+
+.dyx-card-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* 失效角标 */
+.dyx-card-stale-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #d4a72c;
+  color: #fff;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  z-index: 2;
+}
+
+/* 商品角标 */
+.dyx-card-goods-badge {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  z-index: 2;
+}
+
+/* 时长 */
+.dyx-card-duration {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  z-index: 2;
+}
+
+/* 卡片信息 */
+.dyx-card-info {
+  padding: 10px 12px;
+}
+
+.dyx-card-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1f2328;
+  margin: 0 0 6px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.4;
+  word-break: break-all;
+}
+
+.dyx-card-meta {
+  font-size: 11px;
+  color: #656d76;
+  margin: 0 0 6px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.dyx-card-stats {
+  font-size: 11px;
+  color: #656d76;
+  margin: 0;
+  display: flex;
+  gap: 10px;
+}
+
+/* 卡片操作 */
+.dyx-card-actions {
+  display: flex;
+  gap: 6px;
+  padding: 0 12px 10px;
+}
+
+.dyx-card-btn {
+  padding: 3px 10px;
+  border: 1px solid rgba(31, 35, 40, 0.15);
+  border-radius: 4px;
+  font-size: 11px;
+  cursor: pointer;
+  background: #f6f8fa;
+  color: #1f2328;
+  transition: background 0.15s;
+}
+
+.dyx-card-btn:hover {
+  background: #eaeef2;
+}
+
+.dyx-card-btn--danger {
+  color: #cf222e;
+  border-color: rgba(207, 34, 46, 0.2);
+}
+
+.dyx-card-btn--danger:hover {
+  background: #ffebe9;
+}
+
+.dyx-card-btn--warn {
+  color: #d4a72c;
+  border-color: rgba(212, 167, 44, 0.3);
+}
+
+.dyx-card-btn--warn:hover {
+  background: #fff8c5;
+}
+
+/* 确认对话框 */
+.dyx-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dyx-dialog-overlay[hidden] {
+  display: none;
+}
+
+.dyx-dialog {
+  background: #fff;
+  border-radius: 8px;
+  padding: 24px;
+  min-width: 280px;
+  max-width: 400px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.dyx-dialog-msg {
+  margin: 0 0 20px;
+  font-size: 14px;
+  color: #1f2328;
+  line-height: 1.5;
+}
+
+.dyx-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* 格式化数字 */
+.dyx-card-stats span {
+  white-space: nowrap;
+}

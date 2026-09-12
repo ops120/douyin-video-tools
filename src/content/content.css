@@ -1,0 +1,185 @@
+/* 抖存注入样式，dyx- 前缀，z-index 低于抖音弹层 */
+
+.dyx-download-btn,
+.dyx-download-btn:hover,
+.dyx-download-btn:focus,
+.dyx-addlist-btn,
+.dyx-addlist-btn:hover,
+.dyx-addlist-btn:focus,
+.dyx-select-btn,
+.dyx-select-btn:hover,
+.dyx-select-btn:focus {
+  all: initial;
+}
+
+/* ============================================================
+   按钮容器：纵向排列，避免各按钮 absolute 定位导致重叠
+   ============================================================ */
+.dyx-btn-stack {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 2147483000;
+  pointer-events: auto;
+}
+
+/* 详情页固定定位工具条：左下角，避开抖音右侧操作栏与底部栏 */
+.dyx-btn-stack--fixed {
+  position: fixed;
+  left: 16px;
+  bottom: 96px;
+  top: auto;
+  right: auto;
+}
+
+/* 共用样式基底（下载按钮 + 加入列表按钮） */
+.dyx-download-btn,
+.dyx-addlist-btn {
+  position: static;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s, transform 0.1s;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  pointer-events: auto;
+}
+
+.dyx-download-btn:hover {
+  background: rgba(255, 43, 81, 0.85);
+  transform: scale(1.08);
+}
+
+.dyx-addlist-btn:hover {
+  background: rgba(255, 43, 81, 0.85);
+  transform: scale(1.08);
+}
+
+.dyx-download-btn[data-dyx-state="resolving"] {
+  animation: dyx-spin 1s linear infinite;
+}
+
+.dyx-download-btn[data-dyx-state="done"] {
+  background: rgba(40, 167, 69, 0.85);
+}
+
+.dyx-download-btn[data-dyx-state="failed"] {
+  background: rgba(220, 53, 69, 0.85);
+}
+
+/* 加入列表按钮：已加入态 */
+.dyx-addlist-btn[data-dyx-addlist-state="added"] {
+  background: rgba(40, 167, 69, 0.85);
+  cursor: default;
+}
+
+.dyx-btn-icon {
+  pointer-events: none;
+  line-height: 1;
+}
+
+@keyframes dyx-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Toast */
+.dyx-toast-container {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 2147483646;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.dyx-toast {
+  padding: 10px 16px;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 13px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: rgba(0, 0, 0, 0.85);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  animation: dyx-toast-in 0.2s ease-out;
+  max-width: 280px;
+}
+
+.dyx-toast--success { background: rgba(40, 167, 69, 0.92); }
+.dyx-toast--error { background: rgba(220, 53, 69, 0.92); }
+.dyx-toast--warning { background: rgba(255, 152, 0, 0.92); }
+
+@keyframes dyx-toast-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* M3：搜索页「选择」按钮（容器内子元素） */
+.dyx-select-btn {
+  position: static;
+  padding: 4px 12px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-size: 13px;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  pointer-events: auto;
+}
+
+.dyx-select-btn:hover {
+  background: rgba(255, 43, 81, 0.85);
+}
+
+.dyx-select-btn[data-dyx-select-state="selected"] {
+  background: rgba(40, 167, 69, 0.85);
+  cursor: pointer;
+}
+
+/* M3：搜索页计数浮条（吸顶） */
+.dyx-search-bar {
+  position: sticky;
+  top: 0;
+  z-index: 998;
+  background: #fff3cd;
+  color: #664d03;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  border-bottom: 1px solid #ffe69c;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.dyx-search-bar-count {
+  font-weight: 600;
+}
+
+.dyx-search-bar-btn {
+  background: none;
+  border: none;
+  color: #cf222e;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 2px 6px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.dyx-search-bar-btn:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>抖存 — 批量列表</title>
+  <link rel="stylesheet" href="batch.css">
+</head>
+<body class="dyx-batch">
+  <header class="dyx-batch-header">
+    <h1 class="dyx-batch-title">抖存 <span class="dyx-batch-ver">v0.1.0</span></h1>
+  </header>
+
+  <!-- 顶部工具栏（吸顶） -->
+  <div class="dyx-toolbar" id="dyx-toolbar">
+    <div class="dyx-toolbar-info">
+      <span id="dyx-total-count">共 0 个</span>
+      <span class="dyx-toolbar-sep">·</span>
+      <span id="dyx-selected-count">选中 0 个</span>
+    </div>
+    <div class="dyx-toolbar-actions">
+      <button class="dyx-tbtn" id="dyx-select-all" title="全选">全选</button>
+      <button class="dyx-tbtn" id="dyx-invert" title="反选">反选</button>
+      <button class="dyx-tbtn dyx-tbtn--danger" id="dyx-delete" title="删除选中">删除</button>
+      <button class="dyx-tbtn dyx-tbtn--danger" id="dyx-clear" title="清空列表">清空</button>
+      <button class="dyx-tbtn" id="dyx-refresh" title="从存储刷新列表">刷新</button>
+      <div class="dyx-sort-group">
+        <label class="dyx-sort-label">排序：</label>
+        <select class="dyx-sort-select" id="dyx-sort">
+          <option value="addedAt">加入时间</option>
+          <option value="digg">点赞</option>
+          <option value="duration">时长</option>
+        </select>
+      </div>
+    </div>
+    <div class="dyx-toolbar-download">
+      <button class="dyx-dlbtn dyx-dlbtn--zip" id="dyx-download-zip">下载 ZIP</button>
+      <button class="dyx-dlbtn dyx-dlbtn--folder" id="dyx-download-folder">保存到文件夹</button>
+    </div>
+  </div>
+
+  <!-- 进度栏（仅下载中显示） -->
+  <div class="dyx-progress-bar" id="dyx-progress-bar" hidden>
+    <div class="dyx-progress-text" id="dyx-progress-text">准备中…</div>
+    <div class="dyx-progress-track">
+      <div class="dyx-progress-fill" id="dyx-progress-fill" style="width:0%"></div>
+    </div>
+    <div class="dyx-progress-detail" id="dyx-progress-detail"></div>
+  </div>
+
+  <!-- 空态 -->
+  <div class="dyx-empty" id="dyx-empty">
+    <div class="dyx-empty-icon">📋</div>
+    <p class="dyx-empty-text">还没有视频</p>
+    <p class="dyx-empty-hint">去抖音页面点击卡片上的「下载」或「+」按钮添加视频到批量列表</p>
+  </div>
+
+  <!-- 卡片网格 -->
+  <div class="dyx-grid" id="dyx-grid"></div>
+
+  <!-- 确认对话框（删除>10条/清空） -->
+  <div class="dyx-dialog-overlay" id="dyx-dialog" hidden>
+    <div class="dyx-dialog">
+      <p class="dyx-dialog-msg" id="dyx-dialog-msg"></p>
+      <div class="dyx-dialog-actions">
+        <button class="dyx-tbtn" id="dyx-dialog-cancel">取消</button>
+        <button class="dyx-tbtn dyx-tbtn--danger" id="dyx-dialog-confirm">确认</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="batch.js"></script>
+</body>
+</html>

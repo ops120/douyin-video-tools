@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": {
+      "type": "modifyHeaders",
+      "responseHeaders": [
+        { "header": "Access-Control-Allow-Origin", "operation": "set", "value": "https://www.douyin.com" }
+      ]
+    },
+    "condition": {
+      "resourceTypes": ["xmlhttprequest"],
+      "regexFilter": "^https://.+\\.douyinvod\\.com/.+mime_type=video_mp4.*$"
+    }
+  },
+  {
+    "id": 2,
+    "priority": 1,
+    "action": {
+      "type": "modifyHeaders",
+      "requestHeaders": [
+        { "header": "Referer", "operation": "set", "value": "https://www.douyin.com/" },
+        { "header": "Referrer", "operation": "set", "value": "https://www.douyin.com/" },
+        { "header": "Origin", "operation": "set", "value": "https://www.douyin.com" }
+      ]
+    },
+    "condition": {
+      "resourceTypes": ["xmlhttprequest"],
+      "regexFilter": "^https://.+\\.douyinvod\\.com.+ideo\\/tos\\/.+mime_type=video_mp4.+$"
+    }
+  },
+  {
+    "id": 3,
+    "priority": 1,
+    "action": {
+      "type": "modifyHeaders",
+      "requestHeaders": [
+        { "header": "Referer", "operation": "set", "value": "https://www.douyin.com/" },
+        { "header": "Origin", "operation": "set", "value": "https://www.douyin.com" }
+      ]
+    },
+    "condition": {
+      "resourceTypes": ["xmlhttprequest"],
+      "regexFilter": "^https://.+\\.douyinvod\\.com.+ideo\\/tos\\/"
+    }
+  }
+]

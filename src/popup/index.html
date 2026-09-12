@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>抖存</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body class="dyx-popup">
+  <header class="dyx-header">
+    <h1 class="dyx-title">抖存 <span class="dyx-version">v0.1.0</span></h1>
+  </header>
+
+  <nav class="dyx-tabs">
+    <button class="dyx-tab" data-tab="list">列表</button>
+    <button class="dyx-tab" data-tab="export">导出</button>
+    <button class="dyx-tab dyx-tab--active" data-tab="settings">设置</button>
+  </nav>
+
+  <main class="dyx-main">
+    <!-- 列表 tab -->
+    <section class="dyx-panel" data-panel="list" hidden>
+      <div class="dyx-list-summary" id="dyx-list-summary">
+        <p class="dyx-list-count" id="dyx-list-count">批量列表：0 条</p>
+        <div class="dyx-list-thumbs" id="dyx-list-thumbs"></div>
+        <div class="dyx-list-actions">
+          <button class="dyx-btn dyx-btn--primary" id="dyx-open-batch">打开批量页</button>
+          <button class="dyx-btn dyx-btn--danger-sm" id="dyx-clear-batch">清空</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 导出 tab（M3） -->
+    <section class="dyx-panel" data-panel="export" hidden>
+      <p class="dyx-export-count" id="dyx-export-count">当前搜索页已选 0 条</p>
+      <div class="dyx-export-fields" id="dyx-export-fields">
+        <!-- 字段勾选列表由 JS 动态生成 -->
+      </div>
+      <div class="dyx-export-actions">
+        <button class="dyx-btn dyx-btn--sm" id="dyx-export-defaults">恢复默认</button>
+        <button class="dyx-btn dyx-btn--primary-sm" id="dyx-export-copy">复制</button>
+        <button class="dyx-btn dyx-btn--primary-sm" id="dyx-export-csv">导出 CSV</button>
+      </div>
+    </section>
+
+    <!-- 设置 tab -->
+    <section class="dyx-panel dyx-panel--active" data-panel="settings">
+      <div class="dyx-field">
+        <label class="dyx-label" for="dyx-format">文件名模板</label>
+        <select class="dyx-select" id="dyx-format">
+          <option value="title">title（标题）</option>
+          <option value="date_title" selected>date_title（日期_标题）</option>
+          <option value="vid_title">vid_title（视频ID_标题）</option>
+          <option value="title_vid">title_vid（标题_视频ID）</option>
+          <option value="name_date_title">name_date_title（作者_日期_标题）</option>
+          <option value="date_title_vid">date_title_vid（日期_标题_视频ID）</option>
+        </select>
+      </div>
+
+      <div class="dyx-field">
+        <label class="dyx-label">预览</label>
+        <div class="dyx-preview" id="dyx-preview">20260910_示例视频标题.mp4</div>
+      </div>
+
+      <div class="dyx-field">
+        <label class="dyx-label" for="dyx-interval">请求间隔（ms）</label>
+        <input class="dyx-input" type="number" id="dyx-interval" min="0" max="2000" step="50" value="300">
+      </div>
+
+      <div class="dyx-field">
+        <label class="dyx-label" for="dyx-concurrency">并发数</label>
+        <input class="dyx-input" type="number" id="dyx-concurrency" min="1" max="10" step="1" value="4">
+      </div>
+
+      <div class="dyx-field">
+        <label class="dyx-label" for="dyx-retry">失败重试次数</label>
+        <input class="dyx-input" type="number" id="dyx-retry" min="0" max="3" step="1" value="1">
+      </div>
+
+      <button class="dyx-btn dyx-btn--primary" id="dyx-save">保存设置</button>
+    </section>
+  </main>
+
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "抖存 — 抖音视频下载 · 批量处理 · 采集导出",
+  "version": "0.1.0",
+  "description": "抖存（DouCun）— 抖音视频下载助手。支持单视频下载、批量列表、ZIP 打包、文件夹保存、搜索页采集与 CSV 导出。",
+  "permissions": ["storage", "unlimitedStorage", "declarativeNetRequest", "webRequest", "tabs", "scripting"],
+  "host_permissions": ["https://*.douyin.com/*", "https://*.douyinvod.com/*"],
+  "background": { "service_worker": "sw.js", "type": "module" },
+  "content_scripts": [
+    { "css": ["content.css"], "matches": ["*://www.douyin.com/*"], "run_at": "document_start" },
+    { "js": ["cs.js"], "matches": ["*://www.douyin.com/*"], "run_at": "document_end" }
+  ],
+  "web_accessible_resources": [
+    { "resources": ["bs.js"], "matches": ["https://*.douyin.com/*"] }
+  ],
+  "declarative_net_request": {
+    "rule_resources": [{ "id": "ruleset_1", "enabled": true, "path": "rules/rules.json" }]
+  },
+  "action": { "default_popup": "popup.html", "default_title": "抖存" },
+  "icons": {
+    "16": "icons/16.png",
+    "32": "icons/32.png",
+    "48": "icons/48.png",
+    "128": "icons/128.png"
+  }
+}
