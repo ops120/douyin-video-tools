@@ -13,6 +13,7 @@ import {
   clampLimit,
   collectMissingAuthorVids,
   mergeResolvedDetails,
+  describeResolveFailure,
   chunk,
   SOUND_LIMIT_DEFAULT,
 } from '../shared/sound.js';
@@ -21,6 +22,7 @@ import { DYX_ADD_ITEMS, DYX_OPEN_BATCH, DYX_RESOLVE_ITEMS } from '../shared/prot
 import { loadSettings } from '../shared/settings.js';
 import { generateCsv, buildExportFilename, ALL_EXPORT_KEYS } from '../shared/fields.js';
 import { renderFilename } from '../shared/filename.js';
+import { applyVersionLabel } from '../shared/version.js';
 
 function $<T extends HTMLElement = HTMLElement>(sel: string): T {
   const el = document.querySelector<T>(sel);
@@ -411,17 +413,18 @@ async function enrichAuthors(): Promise<void> {
   let failedTotal = 0;
   let stopped = false;
   let fatal = '';
+  let fatalCode = '';
 
   const btn = $<HTMLButtonElement>('#dyx-sound-enrich');
   btn.textContent = '停止补全';
-  showProgress(`补全作者 0/${total}`, 0, '串行请求，每条 ≥300ms，请保持抖音标签页打开');
+  showProgress(`补全作者 0/${total}`, 0, '串行请求，每条 ≥300ms；没有可用抖音页面时会自动开一个后台页代跑');
 
   for (const batch of chunk(vids, ENRICH_CHUNK)) {
     if (stopEnrichRequested) { stopped = true; break; }
 
-    let resp: { results?: ResolveResult[]; error?: string } | undefined;
+    let resp: { results?: ResolveResult[]; error?: string; code?: string } | undefined;
     try {
-      resp = await sendMsg<{ results?: ResolveResult[]; error?: string }>({
+      resp = await sendMsg<{ results?: ResolveResult[]; error?: string; code?: string }>({
         type: DYX_RESOLVE_ITEMS,
         vids: batch,
       });
@@ -429,7 +432,11 @@ async function enrichAuthors(): Promise<void> {
       fatal = e instanceof Error ? e.message : String(e);
       break;
     }
-    if (resp?.error) { fatal = resp.error; break; }
+    if (resp?.error) {
+      fatal = resp.error;
+      fatalCode = resp.code || '';
+      break;
+    }
 
     const outcome = mergeResolvedDetails(items, resp?.results || []);
     items = outcome.items;
@@ -449,16 +456,10 @@ async function enrichAuthors(): Promise<void> {
   stopEnrichRequested = false;
   btn.textContent = '补全作者';
 
-  // 没有可用的抖音标签页是最常见的前置失败，单独给出可操作的提示
+  // 联系不上抖音页面是最常见的前置失败，映射成可操作的提示而非 Chrome 英文原文
   if (fatal) {
     hideProgress();
-    const noTab = fatal.indexOf('抖音标签页') !== -1;
-    setHint(
-      noTab
-        ? '补全失败：请先打开一个抖音页面（www.douyin.com）并保持登录，再点「补全作者」'
-        : `补全失败：${fatal}`,
-      'error'
-    );
+    setHint(describeResolveFailure(fatalCode, fatal), 'error');
     updateEnrichButton();
     return;
   }
@@ -551,6 +552,7 @@ async function handleExportCsv(): Promise<void> {
 // ============ 初始化 ============
 
 function init(): void {
+  applyVersionLabel('.dyx-sound-ver');
   $<HTMLButtonElement>('#dyx-sound-parse').addEventListener('click', () => { void handleParse(); });
 
   $<HTMLInputElement>('#dyx-sound-input').addEventListener('keydown', (e) => {

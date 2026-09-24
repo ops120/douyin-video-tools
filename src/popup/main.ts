@@ -12,6 +12,7 @@ import {
   buildExportFilename,
 } from '../shared/fields.js';
 import type { VideoItem } from '../shared/types.js';
+import { applyVersionLabel } from '../shared/version.js';
 
 const $ = <T extends HTMLElement = HTMLElement>(sel: string): T => {
   const el = document.querySelector<T>(sel);
@@ -312,6 +313,7 @@ function initExportTab(): void {
 }
 
 // 启动
+applyVersionLabel('.dyx-version');
 initTabs();
 initSettings();
 initListTab();

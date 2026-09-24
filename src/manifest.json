@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "抖存 — 抖音视频下载 · 批量处理 · 采集导出",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "抖存（DouCun）— 抖音视频下载助手。支持单视频下载、批量列表、ZIP 打包、文件夹保存、搜索页采集与 CSV 导出。",
   "permissions": ["storage", "unlimitedStorage", "declarativeNetRequest", "webRequest", "tabs", "scripting"],
   "host_permissions": [

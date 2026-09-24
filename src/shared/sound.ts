@@ -334,7 +334,7 @@ export function chunk<T>(arr: T[], size: number): T[][] {
   return out;
 }
 
-// 把详情结果并回列表：保留采集时的 source 与 addedAt，其余字段取新值
+// 把详情接口的结果并回列表：保留采集时的 source 与 addedAt，其余字段取新值
 // 判成功的标准是拿到 item 且带作者昵称；解析出错或无作者均计入 failed
 export function mergeResolvedDetails(items: VideoItem[], results: ResolveResult[]): MergeOutcome {
   const byVid = new Map<string, VideoItem>(items.map((i) => [i.vid, i]));
@@ -358,4 +358,21 @@ export function mergeResolvedDetails(items: VideoItem[], results: ResolveResult[
   }
 
   return { items: items.map((i) => byVid.get(i.vid) || i), updated, failed };
+}
+
+// 补全失败时的可操作提示。
+// code 由 SW 在 DYX_RESOLVE_ITEMS 分支给出。
+// 正常情况下 SW 会自动开后台标签页代跑，用户无需自己开页面；
+// 只有在自动开页也失败时才会走到 auto_tab_failed。
+export function describeResolveFailure(code?: string, rawMessage?: string): string {
+  switch (code) {
+    case 'auto_tab_failed':
+      return `补全失败：${rawMessage || '自动打开抖音页面失败'}。可手动打开一个抖音页面（www.douyin.com）后重试`;
+    case 'no_tab':
+    case 'tab_unreachable':
+    case 'tab_discarded':
+      return '补全失败：抖音页面未就绪。请刷新抖音页面（F5）后重试，并确认处于登录状态';
+    default:
+      return `补全失败：${rawMessage || '未知错误'}`;
+  }
 }

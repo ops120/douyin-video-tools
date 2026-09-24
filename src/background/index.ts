@@ -123,6 +123,64 @@ chrome.webRequest.onCompleted.addListener(
   { urls: DOUYIN_API_URLS, types: ['xmlhttprequest'] as chrome.webRequest.ResourceType[] }
 );
 
+// ============================================================
+// M4.2：临时代理标签页
+// 详情接口要求真实页面上下文（实测仅改写 Origin/Referer 会被安全插件拦下，
+// 返回 403 Blocked by ArgusSecurityPlugin），所以没有可用抖音页面时，
+// 由扩展自己开一个后台标签页来代跑，用完即关，不需要用户手动开页面。
+// ============================================================
+
+function waitForTabComplete(tabId: number, timeoutMs: number): Promise<void> {
+  return new Promise((resolve, reject) => {
+    let settled = false;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+
+    const finish = (err?: Error): void => {
+      if (settled) return;
+      settled = true;
+      chrome.tabs.onUpdated.removeListener(listener);
+      if (timer) clearTimeout(timer);
+      if (err) reject(err);
+      else resolve();
+    };
+
+    const listener = (id: number, info: chrome.tabs.TabChangeInfo): void => {
+      if (id === tabId && info.status === 'complete') finish();
+    };
+
+    timer = setTimeout(() => finish(new Error('页面加载超时')), timeoutMs);
+    chrome.tabs.onUpdated.addListener(listener);
+  });
+}
+
+// 开一个后台标签页跑解析，无论成败都关掉它
+async function resolveInTempTab(vids: string[]): Promise<unknown> {
+  let tabId: number | undefined;
+  try {
+    const tab = await chrome.tabs.create({ url: 'https://www.douyin.com/', active: false });
+    tabId = tab.id;
+    if (tabId == null) throw new Error('标签页创建失败');
+
+    await waitForTabComplete(tabId, 25000);
+    // 内容脚本在 document_end 注入，complete 之后再留一点余量
+    await new Promise((r) => setTimeout(r, 1000));
+
+    // await 会一直等到内容脚本 sendResponse，此时才能安全关闭标签页
+    return await chrome.tabs.sendMessage(tabId, {
+      type: 'DYX_RESOLVE_FROM_BATCH',
+      vids,
+    });
+  } finally {
+    if (tabId != null) {
+      try {
+        await chrome.tabs.remove(tabId);
+      } catch {
+        // 用户可能已手动关闭，忽略
+      }
+    }
+  }
+}
+
 // 消息路由
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   if (!msg || typeof msg.type !== 'string') return false;
@@ -197,36 +255,57 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     }
 
     // M2：失效链接刷新 — SW 找到抖音标签页，转发给内容脚本解析
+    // M4.2：遍历候选标签页；都没有可用页面时自动开后台标签页代跑
     case DYX_RESOLVE_ITEMS: {
       const vids: string[] = msg.vids || [];
       if (vids.length === 0) {
         sendResponse({ results: [] });
         return false;
       }
-      // 找到一个 douyin.com 标签页用于解析
+
+      // 兜底：没有可用的抖音页面，扩展自己开一个后台标签页，跑完即关
+      const useTempTab = (): void => {
+        resolveInTempTab(vids)
+          .then((resp) => sendResponse(resp))
+          .catch((e: unknown) => {
+            sendResponse({
+              error: `自动打开抖音页面失败：${e instanceof Error ? e.message : String(e)}`,
+              code: 'auto_tab_failed',
+            });
+          });
+      };
+
+      // 可能有多个抖音标签页，其中一部分的内容脚本已失效（典型场景：扩展重载后，
+      // 早先打开的页面里脚本成为孤儿，消息发不过去），故逐个尝试直到有人响应
       chrome.tabs.query({ url: 'https://www.douyin.com/*' }, (tabs) => {
-        if (!tabs.length) {
-          sendResponse({ error: '未找到抖音标签页，请先打开抖音页面' });
+        const candidates = tabs.filter((t) => t.id != null && !t.discarded);
+        if (candidates.length === 0) {
+          useTempTab();
           return;
         }
-        // 用第一个匹配的标签页
-        const tab = tabs[0];
-        if (!tab.id) {
-          sendResponse({ error: '标签页无效' });
-          return;
-        }
-        chrome.tabs.sendMessage(
-          tab.id,
-          { type: 'DYX_RESOLVE_FROM_BATCH', vids },
-          (resp) => {
-            const err = chrome.runtime.lastError;
-            if (err) {
-              sendResponse({ error: err.message });
-            } else {
+
+        let i = 0;
+        const tryNext = (): void => {
+          if (i >= candidates.length) {
+            // 已有页面全部联系不上（多为扩展重载后的旧页面），交给临时标签页
+            useTempTab();
+            return;
+          }
+          const tab = candidates[i++];
+          chrome.tabs.sendMessage(
+            tab.id as number,
+            { type: 'DYX_RESOLVE_FROM_BATCH', vids },
+            (resp) => {
+              // 必须在此读取 lastError，否则控制台会报 Unchecked runtime.lastError
+              if (chrome.runtime.lastError) {
+                tryNext(); // 这个标签页联系不上，换下一个
+                return;
+              }
               sendResponse(resp);
             }
-          }
-        );
+          );
+        };
+        tryNext();
       });
       return true;
     }

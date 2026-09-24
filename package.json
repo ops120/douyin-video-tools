@@ -1,7 +1,7 @@
 {
   "name": "dyx-doucun",
-  "version": "0.1.0",
-  "description": "抖存（DouCun）— 抖音视频下载助手 M3",
+  "version": "0.2.0",
+  "description": "抖存（DouCun）— 抖音视频下载助手",
   "private": true,
   "type": "module",
   "scripts": {

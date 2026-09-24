@@ -15,6 +15,7 @@ import { renderFilename } from '../shared/filename.js';
 import { errorMessage, classifySaveError } from '../shared/errors.js';
 import { runQueue } from '../shared/queue.js';
 import { buildZipFilename, buildUniqueFilename } from '../shared/zip.js';
+import { applyVersionLabel } from '../shared/version.js';
 
 // DOM 便捷函数
 function $<T extends HTMLElement = HTMLElement>(sel: string): T {
@@ -810,6 +811,7 @@ function bindEvents(): void {
 // ============ 启动 ============
 
 async function init(): Promise<void> {
+  applyVersionLabel('.dyx-batch-ver');
   bindEvents();
   await loadList();
 }
