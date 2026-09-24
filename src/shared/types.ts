@@ -31,7 +31,7 @@ export interface VideoItem {
   mixName?: string;
   statistics: VideoStatistics;
   goods?: VideoGoods;
-  source: 'feed' | 'detail' | 'search' | 'user' | 'paste';
+  source: 'feed' | 'detail' | 'search' | 'user' | 'paste' | 'sound';
   addedAt: number;
   status?: 'ready' | 'stale' | 'done' | 'failed';
 }

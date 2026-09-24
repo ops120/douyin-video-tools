@@ -16,6 +16,8 @@ export const DYX_REMOVE_ITEMS = 'DYX_REMOVE_ITEMS';
 export const DYX_CLEAR_LIST = 'DYX_CLEAR_LIST';
 export const DYX_RESOLVE_ITEMS = 'DYX_RESOLVE_ITEMS';
 export const DYX_OPEN_BATCH = 'DYX_OPEN_BATCH';
+// M4：原声采集页
+export const DYX_OPEN_SOUND = 'DYX_OPEN_SOUND';
 export const DYX_SETTINGS_CHANGED = 'DYX_SETTINGS_CHANGED';
 
 // SW → 内容脚本：批量页请求刷新直链（经 SW 转发）

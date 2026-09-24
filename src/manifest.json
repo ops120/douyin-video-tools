@@ -4,7 +4,12 @@
   "version": "0.1.0",
   "description": "抖存（DouCun）— 抖音视频下载助手。支持单视频下载、批量列表、ZIP 打包、文件夹保存、搜索页采集与 CSV 导出。",
   "permissions": ["storage", "unlimitedStorage", "declarativeNetRequest", "webRequest", "tabs", "scripting"],
-  "host_permissions": ["https://*.douyin.com/*", "https://*.douyinvod.com/*"],
+  "host_permissions": [
+    "https://*.douyin.com/*",
+    "https://*.douyinvod.com/*",
+    "https://*.iesdouyin.com/*",
+    "https://*.365yg.com/*"
+  ],
   "background": { "service_worker": "sw.js", "type": "module" },
   "content_scripts": [
     { "css": ["content.css"], "matches": ["*://www.douyin.com/*"], "run_at": "document_start" },

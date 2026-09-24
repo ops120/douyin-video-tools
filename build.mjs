@@ -20,6 +20,8 @@ const entries = [
   { in: 'src/popup/main.ts', out: 'popup', format: 'iife', outfile: 'popup.js' },
   // M2：批量页入口
   { in: 'src/batch/main.ts', out: 'batch', format: 'iife', outfile: 'batch.js' },
+  // M4：原声采集页入口
+  { in: 'src/sound/main.ts', out: 'sound', format: 'iife', outfile: 'sound.js' },
 ];
 
 const STATIC_MAP = [
@@ -29,6 +31,8 @@ const STATIC_MAP = [
   ['src/popup/style.css', 'popup.css'],
   ['src/batch/index.html', 'batch.html'],
   ['src/batch/style.css', 'batch.css'],
+  ['src/sound/index.html', 'sound.html'],
+  ['src/sound/style.css', 'sound.css'],
   ['src/content/content.css', 'content.css'],
 ];
 

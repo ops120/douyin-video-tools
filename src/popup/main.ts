@@ -3,7 +3,7 @@
 
 import { loadSettings, saveSettings } from '../shared/settings.js';
 import { renderFilename, type FileNameFormat } from '../shared/filename.js';
-import { DYX_GET_LIST, DYX_OPEN_BATCH, DYX_CLEAR_LIST } from '../shared/protocol.js';
+import { DYX_GET_LIST, DYX_OPEN_BATCH, DYX_OPEN_SOUND, DYX_CLEAR_LIST } from '../shared/protocol.js';
 import {
   EXPORT_FIELDS,
   ALL_EXPORT_KEYS,
@@ -143,11 +143,18 @@ async function loadListSummary(): Promise<void> {
 // 列表 tab 操作
 function initListTab(): void {
   const openBtn = $<HTMLButtonElement>('#dyx-open-batch');
+  const soundBtn = $<HTMLButtonElement>('#dyx-open-sound');
   const clearBtn = $<HTMLButtonElement>('#dyx-clear-batch');
 
   // 打开批量页
   openBtn.addEventListener('click', async () => {
     await sendMsg({ type: DYX_OPEN_BATCH });
+    window.close();
+  });
+
+  // M4：打开原声采集页
+  soundBtn.addEventListener('click', async () => {
+    await sendMsg({ type: DYX_OPEN_SOUND });
     window.close();
   });
 

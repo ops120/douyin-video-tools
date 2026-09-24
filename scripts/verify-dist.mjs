@@ -63,8 +63,8 @@ for (const ref of refs) {
   }
 }
 
-// 3. M2 额外校验：batch.html / batch.js / batch.css
-const m2Files = ['batch.html', 'batch.js', 'batch.css'];
+// 3. M2/M4 额外校验：批量页与原声采集页的产物文件
+const m2Files = ['batch.html', 'batch.js', 'batch.css', 'sound.html', 'sound.js', 'sound.css'];
 for (const f of m2Files) {
   const p = resolve(dist, f);
   if (existsSync(p)) {
@@ -77,7 +77,7 @@ for (const f of m2Files) {
 }
 
 // 4. 第三轮修复 #12：解析 HTML 中 src/href 相对引用并校验存在
-const htmlFiles = ['popup.html', 'batch.html'];
+const htmlFiles = ['popup.html', 'batch.html', 'sound.html'];
 const srcHrefRe = /\b(?:src|href)=["']([^"'#?]+)["']/g;
 for (const htmlFile of htmlFiles) {
   const htmlPath = resolve(dist, htmlFile);

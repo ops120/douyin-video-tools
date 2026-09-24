@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>抖存 — 原声采集</title>
+  <link rel="stylesheet" href="sound.css">
+</head>
+<body class="dyx-sound">
+  <header class="dyx-sound-header">
+    <h1 class="dyx-sound-title">抖存 <span class="dyx-sound-ver">v0.1.0</span></h1>
+    <span class="dyx-sound-sub">原声采集</span>
+  </header>
+
+  <!-- 解析区 -->
+  <section class="dyx-parse">
+    <label class="dyx-parse-label" for="dyx-sound-input">粘贴原声链接 / 活动链接 / 分享文案</label>
+    <div class="dyx-parse-row">
+      <input
+        class="dyx-parse-input"
+        id="dyx-sound-input"
+        type="text"
+        placeholder="例如 https://v.douyin.com/xxxxxxx/ 或 https://www.douyin.com/music/7679077357482691354"
+        spellcheck="false"
+        autocomplete="off"
+      >
+      <button class="dyx-parse-btn" id="dyx-sound-parse">解析</button>
+    </div>
+    <p class="dyx-parse-hint" id="dyx-sound-hint">支持 v.douyin.com 短链、原声页、活动页（趋势）链接，也可直接填 music_id。</p>
+  </section>
+
+  <!-- 原声信息卡（解析成功后显示） -->
+  <section class="dyx-meta" id="dyx-sound-meta" hidden>
+    <img class="dyx-meta-cover" id="dyx-sound-cover" alt="">
+    <div class="dyx-meta-info">
+      <p class="dyx-meta-title" id="dyx-sound-title"></p>
+      <p class="dyx-meta-author" id="dyx-sound-author"></p>
+      <p class="dyx-meta-kind" id="dyx-sound-kind"></p>
+    </div>
+  </section>
+
+  <!-- 工具栏 -->
+  <div class="dyx-toolbar" id="dyx-sound-toolbar" hidden>
+    <div class="dyx-toolbar-info">
+      <span id="dyx-sound-total">共 0 个</span>
+      <span class="dyx-toolbar-sep">·</span>
+      <span id="dyx-sound-selected">选中 0 个</span>
+    </div>
+    <div class="dyx-toolbar-actions">
+      <button class="dyx-tbtn" id="dyx-sound-select-all">全选</button>
+      <button class="dyx-tbtn" id="dyx-sound-invert">反选</button>
+      <button class="dyx-tbtn dyx-tbtn--enrich" id="dyx-sound-enrich" hidden>补全作者</button>
+      <div class="dyx-limit-group">
+        <label class="dyx-limit-label" for="dyx-sound-limit">采集上限</label>
+        <input class="dyx-limit-input" id="dyx-sound-limit" type="number" min="1" max="1000" step="10" value="100">
+      </div>
+      <button class="dyx-tbtn dyx-tbtn--warn" id="dyx-sound-stop" hidden>停止采集</button>
+    </div>
+    <div class="dyx-toolbar-download">
+      <button class="dyx-dlbtn dyx-dlbtn--csv" id="dyx-sound-csv">导出 CSV</button>
+      <button class="dyx-dlbtn dyx-dlbtn--add" id="dyx-sound-add">加入批量列表</button>
+      <button class="dyx-dlbtn dyx-dlbtn--batch" id="dyx-sound-open-batch">打开批量页</button>
+    </div>
+  </div>
+
+  <!-- 进度栏 -->
+  <div class="dyx-progress-bar" id="dyx-sound-progress" hidden>
+    <div class="dyx-progress-text" id="dyx-sound-progress-text">准备中…</div>
+    <div class="dyx-progress-track">
+      <div class="dyx-progress-fill" id="dyx-sound-progress-fill" style="width:0%"></div>
+    </div>
+    <div class="dyx-progress-detail" id="dyx-sound-progress-detail"></div>
+  </div>
+
+  <!-- 空态 -->
+  <div class="dyx-empty" id="dyx-sound-empty">
+    <div class="dyx-empty-icon">🎵</div>
+    <p class="dyx-empty-text">还没有采集</p>
+    <p class="dyx-empty-hint">粘贴一个「XX创作的原声」链接，解析后会把该原声下的作品全部列出来</p>
+  </div>
+
+  <!-- 作品网格 -->
+  <div class="dyx-grid" id="dyx-sound-grid" hidden></div>
+
+  <script src="sound.js"></script>
+</body>
+</html>

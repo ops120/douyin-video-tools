@@ -8,6 +8,7 @@ import {
   DYX_REMOVE_ITEMS,
   DYX_CLEAR_LIST,
   DYX_OPEN_BATCH,
+  DYX_OPEN_SOUND,
   DYX_RESOLVE_ITEMS,
   DYX_SETTINGS_CHANGED,
   DYX_INJECT_BRIDGE,
@@ -182,6 +183,14 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 
     case DYX_OPEN_BATCH: {
       chrome.tabs.create({ url: chrome.runtime.getURL('batch.html') }, (tab) => {
+        sendResponse({ tabId: tab?.id });
+      });
+      return true;
+    }
+
+    // M4：打开原声采集页
+    case DYX_OPEN_SOUND: {
+      chrome.tabs.create({ url: chrome.runtime.getURL('sound.html') }, (tab) => {
         sendResponse({ tabId: tab?.id });
       });
       return true;
