@@ -1,6 +1,11 @@
 // 纯 Node 脚本生成占位 PNG 图标（只用内置 zlib 手写 PNG）
 // 生成 public/icons/{16,32,48,128}.png 纯色占位图
-// 注：占位图，实际发布前需替换为正式图标
+//
+// 正式图标已就位时本脚本不会执行 —— 见下方 source.png 守卫，
+// 避免一次误运行把正式图标覆盖成纯色块。
+//
+// 正式图标来源：public/icons/source.png（52x52 源图），
+// 由图像工具重采样为 16/32/48/128；需要重新生成时同样从它导出即可。
 
 import { deflateSync } from 'node:zlib';
 import { mkdirSync, writeFileSync, existsSync } from 'node:fs';
@@ -10,6 +15,13 @@ import { fileURLToPath } from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
 const iconsDir = resolve(root, 'public/icons');
+
+// 守卫：仓库里已存在正式图标源图时直接退出，不覆盖
+if (existsSync(resolve(iconsDir, 'source.png'))) {
+  console.log('[icons] 检测到 public/icons/source.png（正式图标源图），跳过占位图生成。');
+  console.log('[icons] 如需重新生成 16/32/48/128，请从 source.png 重采样导出。');
+  process.exit(0);
+}
 
 // CRC32 表
 const CRC_TABLE = (() => {
